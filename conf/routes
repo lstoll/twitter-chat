@@ -5,6 +5,10 @@
 # Home page
 GET     /                                       Application.index
 
+# Auth
+GET   /login                Application.login
+*     /authenticate         Application.authenticate
+
 # Map static resources from the /app/public folder to the /public path
 GET     /public/                                staticDir:public
 
