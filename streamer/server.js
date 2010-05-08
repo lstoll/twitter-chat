@@ -20,14 +20,24 @@ var request = twitter.request("POST", "/1/statuses/filter.json",
                                'Authorization': auth,
                                'Content-Type': 'application/x-www-form-urlencoded'});
 
+var trailingData = '';
 
 request.addListener('response', function (response) {
   sys.puts('STATUS: ' + response.statusCode);
   response.setBodyEncoding("utf8");
   response.addListener("data", function (chunk) {
-    // Send response to all connected clients
-    sys.puts('--------------------------------------------');
-    sys.puts(chunk);
+    var tweets = chunk.split("\r\n");
+    for(var i = 0; i < tweets.length; i++){
+      var tweet = chunk + tweets[i];
+      if (tweet.length == 0) continue;
+      try {
+        var result = JSON.parse(tweet);
+        trailingData = "";
+        sys.puts(sys.inspect(result));
+      } catch(e) {
+        trailingData = tweet;
+      }
+    }
   });
 });
 request.write("track=Bieber");
