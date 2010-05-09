@@ -9,6 +9,9 @@ GET     /                                       Application.index
 GET   /login                Application.login
 *     /authenticate         Application.authenticate
 
+# XMPP Receive
+POST   /_ah/xmpp/message/chat/  XMPP.receiveMessage
+
 # Map static resources from the /app/public folder to the /public path
 GET     /public/                                staticDir:public
 
