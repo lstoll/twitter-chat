@@ -6,8 +6,9 @@
 GET     /                                       Application.index
 
 # Auth
-GET   /login                Application.login
-*     /authenticate         Application.authenticate
+GET   /login                Authentication.login
+GET   /logout               Authentication.logout
+*     /authenticate         Authentication.authenticate
 
 # XMPP Receive
 POST   /_ah/xmpp/message/chat/  XMPP.receiveMessage

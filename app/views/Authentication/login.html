@@ -2,7 +2,7 @@
 <h1>${flash.error}</h1>
 #{/if}
  
-<form action="@{Application.authenticate()}" method="POST">
+<form action="@{Authentication.authenticate()}" method="POST">
     <label for="user">What's your OpenID?</label>
     <input type="text" name="user" id="user" />
     <input type="submit" value="login..." />
