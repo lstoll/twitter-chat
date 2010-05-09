@@ -3,3 +3,5 @@ tmp
 precompiled
 war/WEB-INF/appengine-generated
 test-result
+nbproject/private
+nbproject/classes
