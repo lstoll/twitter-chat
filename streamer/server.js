@@ -14,6 +14,7 @@ if (!USERNAME || !PASSWORD || !SERVER)
 var auth = base64.encode(USERNAME + ':' + PASSWORD);
 
 // Connection to Twitter's streaming API
+// for timeline, http://chirpstream.twitter.com/2b/user.json
 var twitter = http.createClient(80, "stream.twitter.com");
 var request = twitter.request("POST", "/1/statuses/filter.json",
                               {'host': 'stream.twitter.com', 
