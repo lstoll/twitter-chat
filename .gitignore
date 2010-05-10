@@ -1,7 +1,8 @@
 .DS_Store
 tmp
 precompiled
-war/WEB-INF/appengine-generated
+war/WEB-INF/appengine-generated/*
+WEB-INF/appengine-generated/*
 test-result
 nbproject
 prj.el
