@@ -17,6 +17,16 @@ import com.google.appengine.api.xmpp.XMPPServiceFactory;
  * @author lstoll
  */
 public class XMPPSend {
+    private static XMPPService testService;
+
+    public static void testSetUp() {
+        testService = new TestXMPPService();
+    }
+
+    public static void testTearDown() {
+        testService = null;
+    }
+
     /**
      * Delivers a XMPP message to the user. Can buffer the message for later if
      * the user is offline
@@ -33,7 +43,7 @@ public class XMPPSend {
             .build();
 
         boolean messageSent = false;
-        XMPPService xmpp = XMPPServiceFactory.getXMPPService();
+        XMPPService xmpp = getCurrentXMPPService();
         if (xmpp.getPresence(jid).isAvailable()) {
             SendResponse status = xmpp.sendMessage(msg);
             messageSent = (status.getStatusMap().get(jid) == SendResponse.Status.SUCCESS);
@@ -42,5 +52,9 @@ public class XMPPSend {
             // TODO - add the message to a buffer queue
         }
         return messageSent;
+    }
+
+    private static XMPPService getCurrentXMPPService() {
+        return testService != null ? testService : XMPPServiceFactory.getXMPPService();
     }
 }
