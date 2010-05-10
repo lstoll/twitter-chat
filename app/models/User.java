@@ -25,6 +25,10 @@ public class User extends Model {
     @Column("last_reminded")
     public Date lastReminded;
 
+    @Column("disabled")
+    public boolean disabled;
+
+
     /*
      * Instance Methods
      */
@@ -33,10 +37,12 @@ public class User extends Model {
         this.xmppID = xmppID;
         // Default time should be 1 hr, 1 minute ago to force update.
         this.lastReminded = new Date(new Date().getTime() - (61 * 60 * 1000));
+        this.disabled = false;
     }
     
     public boolean isActive() {
-        return xmppID != null && twitterToken != null && twitterTokenSecret != null;
+        return xmppID != null && twitterToken != null &&
+                twitterTokenSecret != null && !disabled;
     }
 
 
