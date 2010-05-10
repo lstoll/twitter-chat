@@ -65,6 +65,7 @@ public class UserTest extends UnitTest {
 
         // set their last remind time to now.
         u.lastReminded = new Date();
+        u.update();
 
         // should no longer need reminder
         assertEquals(0, User.needsReminder().size());
