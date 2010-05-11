@@ -1,6 +1,5 @@
 package controllers;
 
-import models.User;
 import play.mvc.*;
 import play.libs.OpenID;
 import play.libs.OpenID.*;
@@ -23,9 +22,6 @@ public class Authentication extends Controller {
                 login();
             } 
             session.put("user", verifiedUser.id);
-            User u = new User();
-            u.openID = verifiedUser.id;
-            u.insert();
             // TODO - we should complete registration here
             redirect("/");
         } else {
