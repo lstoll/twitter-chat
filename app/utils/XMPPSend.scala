@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package utils;
 
 import com.google.appengine.api.xmpp.JID;
@@ -16,14 +11,14 @@ import com.google.appengine.api.xmpp.XMPPServiceFactory;
  *
  * @author lstoll
  */
-public class XMPPSend {
-    private static XMPPService testService;
+object XMPPSend {
+    var testService:XMPPService = null
 
-    public static void testSetUp() {
-        testService = new TestXMPPService();
+    def testSetUp = {
+        testService = new TestXMPPService
     }
 
-    public static void testTearDown() {
+    def testTearDown = {
         testService = null;
     }
 
@@ -35,26 +30,29 @@ public class XMPPSend {
      * @param buffer true if we should buffer the message if the user is offline
      * @return true if it was delivered, false if it wasn't (or it was buffered)
      */
-    public static boolean sendMessage(String to, String body, boolean buffer) {
-        JID jid = new JID(to);
-        Message msg = new MessageBuilder()
+    def sendMessage(to:String, body:String, buffer:Boolean):Boolean = {
+        var jid = new JID(to)
+        var msg = new MessageBuilder()
             .withRecipientJids(jid)
             .withBody(body)
-            .build();
+            .build()
 
-        boolean messageSent = false;
-        XMPPService xmpp = getCurrentXMPPService();
-        if (xmpp.getPresence(jid).isAvailable()) {
-            SendResponse status = xmpp.sendMessage(msg);
+        var messageSent = false
+        var xmpp = getCurrentXMPPService
+        if (xmpp.getPresence(jid).isAvailable) {
+            var status = xmpp.sendMessage(msg)
             messageSent = (status.getStatusMap().get(jid) == SendResponse.Status.SUCCESS);
         }
         else {
             // TODO - add the message to a buffer queue
         }
-        return messageSent;
+        messageSent
     }
 
-    private static XMPPService getCurrentXMPPService() {
-        return testService != null ? testService : XMPPServiceFactory.getXMPPService();
+    def getCurrentXMPPService():XMPPService = {
+        if (testService != null)
+          return testService
+        else 
+          return XMPPServiceFactory.getXMPPService()
     }
 }
