@@ -74,4 +74,8 @@ object User extends Model {
     var hourAgo = new Date(new Date().getTime() - (60 * 60 * 1000))
     Model.all(classOf[User]).filter("lastReminded <", hourAgo).fetch
   }
+
+  def all = {
+    Model.all(classOf[User])
+  }
 }

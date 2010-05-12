@@ -29,4 +29,8 @@ object UserWatch extends Model {
   def byWatch(w:Watch):java.util.List[UserWatch] = {
     Model.all(classOf[UserWatch]).filter("watchId", w.getId).fetch
   }
+
+  def all = {
+    Model.all(classOf[UserWatch])
+  }
 }

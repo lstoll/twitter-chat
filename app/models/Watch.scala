@@ -44,4 +44,8 @@ object Watch {
     Model.all(classOf[Watch]).filter("term", term).get
   }
 
+  def all = {
+    Model.all(classOf[Watch])
+  }
+
 }
