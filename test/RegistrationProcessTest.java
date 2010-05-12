@@ -64,7 +64,8 @@ public class RegistrationProcessTest extends FunctionalTest {
     // Test that a user gets a welcome XMPP page with a link to the oauth page
     @Test
     public void testNewUserWelcomeLinkXMPP() {
-        User u = new User("l@lds.li");
+        User u = new User();
+        u.setXmppID("l@lds.li");
         u.insert();
 
         GET("/Cron/oauthCheck");

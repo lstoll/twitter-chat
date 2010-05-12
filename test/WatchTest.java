@@ -53,9 +53,11 @@ public class WatchTest extends UnitTest {
     public void usersForTermTest() {
         DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
 
-        User u1 = new User("1@u.com");
+        User u1 = new User();
+        u1.setXmppID("1@u.com");
         u1.insert();
-        User u2 = new User("2@u.com");
+        User u2 = new User();
+        u2.setXmppID("2@u.com");
         u2.insert();
 
         u1.addWatch("term");

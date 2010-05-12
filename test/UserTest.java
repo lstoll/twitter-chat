@@ -26,13 +26,14 @@ public class UserTest extends UnitTest {
 
     @Test
     public void createAndGetUserByXMPPID() {
-        User u = new User("l@lds.li");
+        User u = new User();
+        u.setXmppID("l@lds.li");
         u.insert();
 
         // now get the user
-        User getUser = User.byOpenID("l@lds.li");
+        User getUser = User.byXmppId("l@lds.li");
         assertNotNull(getUser);
-        assertEquals(getUser.xmppID, u.xmppID);
+        assertEquals(getUser.getXmppID(), u.getXmppID());
 
         // Makes sure we aren't leaking - will fail on subsequent runs
         DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
@@ -41,13 +42,14 @@ public class UserTest extends UnitTest {
 
     @Test
     public void userShouldNotBeRegisteredWihoutXMPPIDandOauth() {
-        User u = new User("l@lds.li");
+        User u = new User();
+        u.setXmppID("l@lds.li");
         u.insert();
 
         assertFalse(u.isActive());
 
-        u.twitterToken = "aa";
-        u.twitterTokenSecret = "xx";
+        u.setTwitterToken("aa");
+        u.setTwitterTokenSecret("xx");
 
         u.update();
 
@@ -57,14 +59,15 @@ public class UserTest extends UnitTest {
     @Test
     public void needsOauthReminder() {
         // if isn't active and hasn't been prompted in the last hour, re-prompt
-        User u = new User("l@lds.li");
+        User u = new User();
+        u.setXmppID("l@lds.li");
         u.insert();
 
         // we need to be reminded
         assertEquals(1, User.needsReminder().size());
 
         // set their last remind time to now.
-        u.lastReminded = new Date();
+        u.setLastReminded(new Date());
         u.update();
 
         // should no longer need reminder
@@ -76,7 +79,9 @@ public class UserTest extends UnitTest {
         DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
         assertEquals(0, ds.prepare(new Query("Watch")).countEntities());
 
-        User u = new User("l@lds.li");
+        User u = new User();
+        u.setXmppID("l@lds.li");
+
         u.insert();
 
         u.addWatch("testterm");
@@ -94,9 +99,11 @@ public class UserTest extends UnitTest {
         DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
         assertEquals(0, ds.prepare(new Query("Watch")).countEntities());
 
-        User u1 = new User("1@u.com");
+        User u1 = new User();
+        u1.setXmppID("1@u.com");
         u1.insert();
-        User u2 = new User("2@u.com");
+        User u2 = new User();
+        u2.setXmppID("2@u.com");
         u2.insert();
 
         u1.addWatch("term");

@@ -21,12 +21,12 @@ public class UserWatch extends Model {
      * Instance Methods
      */
     public UserWatch(User u, Watch w) {
-        this.userId = u.id;
+        this.userId = u.getId();
         this.watchId = w.id;
     }
 
     public static UserWatch byUserAndWatch(User u, Watch w) {
-        return Model.all(UserWatch.class).filter("userId", u.id).
+        return Model.all(UserWatch.class).filter("userId", u.getId()).
                                           filter("watchId", w.id).get();
     }
 
