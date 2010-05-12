@@ -43,7 +43,9 @@ class User() extends Model {
     var w = Watch.findOrCreate(term);
 
     // Need to create a new assoc object.
-    var uw = new UserWatch(this, w);
+    var uw = new UserWatch();
+    uw.userId = this.id;
+    uw.watchId = w.id;
     uw.insert();
   }
 
@@ -53,7 +55,7 @@ class User() extends Model {
       UserWatch.byUserAndWatch(this, w).delete();
     }
     // Now we need to check if the watch has any users left
-    if (UserWatch.byWatch(w).size() == 0) {
+    if (UserWatch.byWatch(w).size == 0) {
       w.delete();
     }
   }

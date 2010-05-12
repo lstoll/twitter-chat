@@ -87,7 +87,7 @@ public class UserTest extends UnitTest {
         u.addWatch("testterm");
 
         assertEquals(1, ds.prepare(new Query("Watch")).countEntities());
-        assertEquals("testterm", Watch.all(Watch.class).get().term);
+        assertEquals("testterm", Watch.all(Watch.class).get().getTerm());
 
         u.removeWatch("testterm");
 
