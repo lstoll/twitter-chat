@@ -6,3 +6,5 @@ WEB-INF/appengine-generated/*
 test-result
 nbproject
 #prj.el
+build
+build.properties

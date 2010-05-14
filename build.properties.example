@@ -1,0 +1,3 @@
+scala.home=/usr/local/Cellar/scala/2.8.0-RC2
+appengine.home=/usr/local/Cellar/app-engine-java-sdk/1.3.3.1
+play.home=/Users/lstoll/sw/play-1.1-unstable-r892
