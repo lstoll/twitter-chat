@@ -1,0 +1,2 @@
+*.jar
+!scala-test-wrappers-0.3-HEAD-lstoll.jar
