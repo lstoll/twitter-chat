@@ -52,23 +52,25 @@
 
   <target name="build" depends="init">
     <mkdir dir="${build.dir}"   />
-    <fsc srcref="sources"
+    <scalac srcref="sources"
             destdir="${build.dir}"
+            failonerror="false"
             classpathref="build.classpath">
       <include name="**/*.scala"   />
       <exclude name="forget/**/*.scala"   />
-    </fsc>
+    </scalac>
   </target>
 
   <!-- Used for Flymake -->
   <target name="check-syntax" depends="init">
     <mkdir dir="${build.dir}"   />
-    <fsc sourcepathref="sources"
+    <scalac sourcepathref="sources"
             srcdir="${basedir}"
             destdir="${build.dir}"
+            failonerror="false"
             classpathref="build.classpath">
       <include name="${CHK_SOURCES}" />
-    </fsc>
+    </scalac>
   </target>
 
   <!-- IVY -->
