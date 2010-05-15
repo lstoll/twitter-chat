@@ -1,3 +1,19 @@
 #{extends 'main.html' /}
-#{set title:'Home' /}
-<h1>Hello ${session.get("user")}</h1>
+#{set title:'Twitter Chat' /}
+<h1>Twitter Chat</h1>
+<hr>
+<p>Welcome to twitter chat. This is a real-time bridge between twitter and XMPP, using
+the streaming API. It's very early in testing.</p>
+<form action="@{Register.submitJid()}" method="POST">
+  <fieldset>
+    <legend>Get Started</legend>
+    #{if flash.error}
+    <div class="error">
+      ${flash.error}
+    </div>
+    #{/if}
+    <p><label for="jid">To get started, enter your XMPP ID</label></p>
+    <input type="text" class="title" id="jid" name="jid"/>
+    <input type="submit" value="Submit"/>
+  </fieldset>
+</form>
