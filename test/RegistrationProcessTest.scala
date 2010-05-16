@@ -4,7 +4,6 @@ import org.junit._
 import org.scalatest.junit._
 import org.scalatest._
 import org.scalatest.matchers._
-import com.google.appengine.tools.development.testing._
 import com.google.appengine.api.datastore._
 import java.util.{HashMap, Map}
 import play.mvc.Http._
@@ -16,33 +15,16 @@ import utils.XMPPSend
 
 class RegistrationProcessTest extends FunctionalTest with ShouldMatchersForJUnit
                                                      with Browser
-                                                     with play.test.Matchers {
-  var helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig)
-
-  var playGAEDevEnv:com.google.apphosting.api.ApiProxy.Environment  = null
+                                                     with play.test.Matchers
+                                                     with TestHelpers {
   
   @Before def setUp {
-    helper.setUp
-    //play.modules.gae.GAEPlugin.
-    play.Play.plugins.foreach { p =>
-      if (p.isInstanceOf[play.modules.gae.GAEPlugin]) {
-        var pin = p.asInstanceOf[play.modules.gae.GAEPlugin]
-        playGAEDevEnv = pin.devEnvironment
-        pin.devEnvironment = null
-      }
-    }
+    gaeSetUp
     XMPPSend.testSetUp
-
   }
   
   @After def tearDown {
-    helper.tearDown
-    play.Play.plugins.foreach { p =>
-      if (p.isInstanceOf[play.modules.gae.GAEPlugin]) {
-        var pin = p.asInstanceOf[play.modules.gae.GAEPlugin]
-        pin.devEnvironment = playGAEDevEnv
-      }
-    }
+    gaeTearDown
     XMPPSend.testTearDown
   }
   
