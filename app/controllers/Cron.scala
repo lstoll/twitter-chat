@@ -10,13 +10,11 @@ import utils._
 
 object Cron extends Controller {
   def oauthCheck {
-    println(Thread.currentThread.getId)
     // find all users pending rego
     User.query.needsReminder.foreach { u =>
-      println("DOING")
-      var msg = "Hi! To valdate your ID and link your twitter account, please " /*+
+      var msg = "Hi! To valdate your ID and link your twitter account, please " +
       "click this link: " + AppConfig.getProp("sitebase") + "/Register/oauth" +
-      "?jid=" + u.xmppID + "&key=" + Hashing.hashSaltString(u.xmppID)*/
+      "?jid=" + u.xmppID + "&key=" + Hashing.hashSaltString(u.xmppID)
       XMPPSend.sendMessage(u.xmppID, msg, false)
     }
       
