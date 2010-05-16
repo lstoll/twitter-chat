@@ -5,6 +5,8 @@ import play.test.FunctionalTest
 import com.google.appengine.tools.development.testing._
 import scala.collection.JavaConversions._
 
+import utils._
+
 trait TestHelpers {
   var playGAEDevEnv:com.google.apphosting.api.ApiProxy.Environment  = null
   var helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig)
@@ -13,6 +15,7 @@ trait TestHelpers {
   * Sets up a proper GAE test environment
   */
   def gaeSetUp = {
+    AppConfig.testMode = true
     helper.setUp
     //play.modules.gae.GAEPlugin.
     play.Play.plugins.foreach { p =>
@@ -29,6 +32,7 @@ trait TestHelpers {
   * Tears down the GAE test environment
   */
   def gaeTearDown = {
+    AppConfig.testMode = false
     helper.tearDown
     play.Play.plugins.foreach { p =>
       if (p.isInstanceOf[play.modules.gae.GAEPlugin]) {
