@@ -1,4 +1,4 @@
-import play.test._
+/*import play.test._
 
 import org.junit._
 import org.scalatest.junit._
@@ -52,3 +52,4 @@ class WatchTest extends UnitTest with ShouldMatchersForJUnit {
     w.users().size should equal (2)
   }
 }
+*/

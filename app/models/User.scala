@@ -1,35 +1,29 @@
 package models
 
 import java.util.Date
-import reflect.BeanProperty
-import siena._
+import play.modules.objectify.ObjectifyModel
+import play.data.validation.Required
+import play.modules.objectify.Datastore
+import play.modules.objectify.ObjectifyService
+import com.googlecode.objectify.Key;
+import com.googlecode.objectify.Query
+import javax.persistence.Id
 
-@Table("User")
-class User() extends Model {
+
+class User extends ObjectifyModel {
 
   @Id
-  @BeanProperty
   var id:Long = -1
 
-  @Column(Array("xmpp_id"))
-  @Max(200) @NotNull
-  @BeanProperty
+  @Required
   var xmppID:String = null
 
-  @Column(Array("twitter_token"))
-  @BeanProperty
   var twitterToken:String = null
 
-  @Column(Array("twitter_token_secret"))
-  @BeanProperty
   var twitterTokenSecret:String = null
 
-  @Column(Array("last_reminded"))
-  @BeanProperty
   var lastReminded = new Date(new Date().getTime() - (61 * 60 * 1000))
 
-  @Column(Array("disabled"))
-  @BeanProperty
   var disabled = false
 
 
@@ -38,15 +32,23 @@ class User() extends Model {
       twitterTokenSecret != null && !disabled;
   }
 
-  def addWatch(term:String) {
+  def save():Key[User] = {
+    ObjectifyService.put(this)
+  }
+
+  def delete() {
+    ObjectifyService.delete(this)
+  }
+  
+  /*def addWatch(term:String) {
     // Need to find or create the watch.
     var w = Watch.findOrCreate(term);
 
     // Need to create a new assoc object.
-    var uw = new UserWatch();
-    uw.userId = this.id;
-    uw.watchId = w.id;
-    uw.insert();
+    var uw = new UserWatch
+    uw.user = new Key[User](classOf[User], this.id);
+    uw.watch = new Key[User](classOf[User], uw.ID);
+    uw.save
   }
 
   def removeWatch(term:String) {
@@ -58,24 +60,23 @@ class User() extends Model {
     if (UserWatch.byWatch(w).size == 0) {
       w.delete();
     }
+  }*/
+}
+
+class UserQueries {
+  def byXmppId(xmppID:String):User = {
+    ObjectifyService.query(classOf[User]).filter("xmppID", xmppID).get
+  }
+
+  def needsReminder():Query[User] = {
+    var hourAgo = new Date(new Date().getTime() - (60 * 60 * 1000))
+    ObjectifyService.query(classOf[User]).filter("lastReminded <", hourAgo)
   }
 }
 
-object User extends Model {
-  /*
-     * Finder Methods
-     */
+object User {
+  var queryObj = new UserQueries
+  def resetQueryObj = queryObj = new UserQueries
 
-  def byXmppId(xmppID:String):User = {
-    Model.all(classOf[User]).filter("xmppID", xmppID).get
-  }
-
-  def needsReminder():java.util.List[User] = {
-    var hourAgo = new Date(new Date().getTime() - (60 * 60 * 1000))
-    Model.all(classOf[User]).filter("lastReminded <", hourAgo).fetch
-  }
-
-  def all = {
-    Model.all(classOf[User])
-  }
+  def query = queryObj
 }

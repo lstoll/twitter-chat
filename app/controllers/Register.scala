@@ -16,7 +16,7 @@ object Register extends Controller {
     // Add them to the DB
     var u = new User
     u.xmppID = jid
-    u.insert
+    u.save
     // invite
     XMPPSend.inviteUser(jid)
     

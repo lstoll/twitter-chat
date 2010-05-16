@@ -37,7 +37,7 @@
       <fileset dir="${play.home}">
         <include name="framework/**/*.jar"/>
         <include name="modules/scala-0.3/lib/**/*.jar"/>
-        <include name="modules/siena-1.1/lib/**/*.jar"/>
+        <include name="modules/objectify-1.0/lib/**/*.jar"/>
         <include name="modules/gae-1.0.2/lib/play-gae*.jar"/>
       </fileset>
     </path>

@@ -11,48 +11,41 @@ import com.google.appengine.api.xmpp.XMPPService
 
 class TestXMPPService extends XMPPService {
     
-
-    override def getPresence(jid:JID):Presence = {
-        reset
-        new Presence(TestXMPPService.nextAvailable);
-    }
-
-    override def getPresence(jid:JID, jid1:JID):Presence = {
-        getPresence(jid)
-    }
-
-    override def sendInvitation(jid:JID) {
-        reset
-        TestXMPPService.lastRequestInvitation = true
-        TestXMPPService.lastRequestJID = jid.getId()
-    }
-
-    override def sendInvitation(jid:JID, jid1:JID) {
-        sendInvitation(jid)
-    }
-
-    override def sendMessage(msg:Message):SendResponse = {
-        reset
-        TestXMPPService.lastMessage = msg
-        // TODO = handle multiple case
-        TestXMPPService.lastRequestJID = msg.getRecipientJids()(0).getId()
-        var sr = new SendResponse
-        sr.addStatus(msg.getRecipientJids()(0), TestXMPPService.nextSendResult)
-        sr
-    }
-
-    override def parseMessage(hsr:HttpServletRequest):Message = {
-        throw new UnsupportedOperationException("We don't use that here.");
-    }
-
-    private def reset {
-        TestXMPPService.lastMessage = null
-        TestXMPPService.nextAvailable = true
-        TestXMPPService.nextSendResult = SendResponse.Status.SUCCESS
-        TestXMPPService.lastRequestJID = null
-        TestXMPPService.lastRequestInvitation = false
-    }
-
+  
+  override def getPresence(jid:JID):Presence = {
+    TestXMPPService.reset
+    new Presence(TestXMPPService.nextAvailable);
+  }
+  
+  override def getPresence(jid:JID, jid1:JID):Presence = {
+    getPresence(jid)
+  }
+  
+  override def sendInvitation(jid:JID) {
+    TestXMPPService.reset
+    TestXMPPService.lastRequestInvitation = true
+    TestXMPPService.lastRequestJID = jid.getId()
+  }
+  
+  override def sendInvitation(jid:JID, jid1:JID) {
+    sendInvitation(jid)
+  }
+  
+  override def sendMessage(msg:Message):SendResponse = {
+    TestXMPPService.reset
+    TestXMPPService.lastMessage = msg
+    // TODO = handle multiple case
+    TestXMPPService.lastRequestJID = msg.getRecipientJids()(0).getId()
+    var sr = new SendResponse
+    sr.addStatus(msg.getRecipientJids()(0), TestXMPPService.nextSendResult)
+    sr
+  }
+  
+  override def parseMessage(hsr:HttpServletRequest):Message = {
+    throw new UnsupportedOperationException("We don't use that here.");
+  }
+  
+  
 }
 
 object TestXMPPService {
@@ -61,4 +54,12 @@ object TestXMPPService {
   var nextSendResult:SendResponse.Status = SendResponse.Status.SUCCESS
   var lastRequestJID:String = null
   var lastRequestInvitation = false
+  
+  def reset = {
+    TestXMPPService.lastMessage = null
+    TestXMPPService.nextAvailable = true
+    TestXMPPService.nextSendResult = SendResponse.Status.SUCCESS
+    TestXMPPService.lastRequestJID = null
+    TestXMPPService.lastRequestInvitation = false
+  }
 }

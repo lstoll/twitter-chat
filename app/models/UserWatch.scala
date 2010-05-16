@@ -1,4 +1,4 @@
-package models
+/*package models
 
 import reflect.BeanProperty
 import siena._
@@ -34,3 +34,4 @@ object UserWatch extends Model {
     Model.all(classOf[UserWatch])
   }
 }
+*/
