@@ -21,7 +21,7 @@ class UtilsTest extends UnitTest with ShouldMatchersForJUnit {
   }
 
   @Test def saltedHashedStringTest() {
-    val hstr = "10595565031accb918cc90affd566c28cfa271be"
+    val hstr = "fff08d83e04adf96fa40eb14e30a2acd6b19b8ed"
     utils.Hashing.hashSaltString("TESTSTRING") should equal (hstr)
   }
 }

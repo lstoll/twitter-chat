@@ -24,7 +24,6 @@ object Hashing {
       hexString.append(hex)
     }
     md5val = hexString.toString()
-    println(md5val)
     md5val
   }
 }
